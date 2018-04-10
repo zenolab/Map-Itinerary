@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+    defaultConfig {
+        applicationId "com.zenolab.nav.grd.mapping"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 45
+        // draw route in service
+        versionName "1.4.5"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    ////getMap() method was depreciated but now after the play-services 9.2 update, it has been removed
+    //compile 'com.google.android.gms:play-services:10.2.6'
+
+    //---------draw-route---
+    /*
+    compile 'com.google.android.gms:play-services-maps:9.4.0'
+    compile 'com.google.android.gms:play-services-location:9.4.0'
+
+    */
+
+    /*
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.android.gms:play-services-maps:9.0.1'
+    compile 'com.google.android.gms:play-services-location:9.0.1'
+    compile 'com.google.code.gson:gson:2.6.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    //https://www.spaceotechnologies.com/calculate-distance-two-gps-coordinates-google-maps-api/
+    // https://github.com/akexorcist/Android-GoogleDirectionLibrary
+    compile 'com.akexorcist:googledirectionlibrary:1.0.4'
+
+    // for: https://www.simplifiedcoding.net/google-maps-distance-calculator-google-maps-api/
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
+    */
+
+
+    
+
+    //https://www.spaceotechnologies.com/calculate-distance-two-gps-coordinates-google-maps-api/
+    // https://github.com/akexorcist/Android-GoogleDirectionLibrary
+    // for: https://www.simplifiedcoding.net/google-maps-distance-calculator-google-maps-api/
+    //compile 'com.google.maps.android:android-maps-utils:0.4+'
+    //!!!The latest version of Google Play Services App Indexing is:
+    //com.google.android.gms:play-services-appindexing:8.4.0
+    //compile 'com.google.android.gms:play-services:8.4.0'
+    //compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+
+
+    /*
+    'com.android.support:design:23.4.0'
+
+
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.android.gms:play-services-maps:9.0.1'
+    compile 'com.google.android.gms:play-services-location:9.0.1'
+    compile 'com.google.code.gson:gson:2.6.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+
+    //https://www.spaceotechnologies.com/calculate-distance-two-gps-coordinates-google-maps-api/
+    // https://github.com/akexorcist/Android-GoogleDirectionLibrary
+    compile 'com.akexorcist:googledirectionlibrary:1.0.4'
+    // for: https://www.simplifiedcoding.net/google-maps-distance-calculator-google-maps-api/
+    //compile 'com.google.maps.android:android-maps-utils:0.4+'
+    //!!!The latest version of Google Play Services App Indexing is:
+    //com.google.android.gms:play-services-appindexing:8.4.0
+    //compile 'com.google.android.gms:play-services:8.4.0'
+    //compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    */
+
+
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.google.android.gms:play-services-maps:9.0.1'
+    compile 'com.google.android.gms:play-services-location:9.0.1'
+    compile 'com.google.code.gson:gson:2.6.1'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'com.akexorcist:googledirectionlibrary:1.0.4'
+    testCompile 'junit:junit:4.12'
+}

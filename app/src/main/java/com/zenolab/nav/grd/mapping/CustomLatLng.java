@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 public  class CustomLatLng  implements Serializable , com.google.android.gms.common.internal.safeparcel.SafeParcelable{
 
-
     public static  com.google.android.gms.maps.model.zze CREATOR;
     private  int mVersionCode;
     public  double latitude;

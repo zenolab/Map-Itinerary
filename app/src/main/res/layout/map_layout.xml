@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:screenOrientation="portrait"
-    android:orientation="vertical">
-<!--
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    -->
+    android:orientation="vertical"
+    android:screenOrientation="portrait">
 
-    <!--
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        -->
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -24,47 +12,37 @@
 
 
         <EditText
+            android:id="@+id/TFaddress"
             android:layout_width="183dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/TFaddress" />
+            android:layout_height="wrap_content" />
 
         <Button
+            android:id="@+id/Bsearch"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Search"
-            android:id="@+id/Bsearch"
             android:layout_gravity="right"
             android:layout_weight="0"
-            android:onClick="onSearch" />
-        <!--
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Map Type"
-            android:id="@+id/Btype"
-            android:layout_gravity="right"
-            android:nestedScrollingEnabled="false"
-            android:onClick="changeType" />
-        -->
+            android:onClick="onSearch"
+            android:text="Search" />
+
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+"
             android:id="@+id/Bzoomin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:onClick="onZoom" />
+            android:onClick="onZoom"
+            android:text="+" />
 
         <Button
 
+            android:id="@+id/Bzoomout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"
-            android:id="@+id/Bzoomout"
             android:layout_weight="3"
-            android:onClick="onZoom" />
+            android:onClick="onZoom"
+            android:text="-" />
 
     </LinearLayout>
 
@@ -72,13 +50,12 @@
         android:id="@+id/tv_distance_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/TFaddress"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_below="@id/TFaddress"
         android:text="Set route"
-        android:textStyle="bold"
         android:textColor="#000000"
-        android:layout_alignParentTop="true" />
-
+        android:textStyle="bold" />
 
 
     <LinearLayout
@@ -88,22 +65,15 @@
 
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/map"
-            tools:context=".MapsActivity"
             android:layout_marginBottom="2dp"
             android:screenOrientation="portrait"
-            android:name="com.google.android.gms.maps.SupportMapFragment" />
-
+            tools:context=".MapsActivity" />
 
 
     </LinearLayout>
 
-
-
-
 </LinearLayout>
-<!--
-</RelativeLayout>
--->

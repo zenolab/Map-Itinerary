@@ -40,16 +40,8 @@ import java.util.List;
  * Created by grd on 9/7/17.
  */
 
-//Application loaded - uploaded first ( even eairler than MainActivity)
-//The purpose of the Application class is to store the state or data of a global application
-public class AppMap extends Application  {
 
-    /*
-    If you are not using so many static variables so this may not affect your application.
-    But the problem with static variable may arise when your app goes
-    to background and the app running on front requires memory so it may clear your static data,
-    so when you will go to your app you may find nothing (null) in place of static data.
-     */
+public class AppMap extends Application {
 
     public static final String FILENAME = "Map_Itinerary_Points";
     public static Location currentLocation;
@@ -57,36 +49,27 @@ public class AppMap extends Application  {
     public static ArrayList<LatLng> pointsLoads = new ArrayList<LatLng>();
     public static Polyline gpsTrackPolyline;
     public static LatLng lastKnownLatLng;
-    static List<LatLng>  datArrayList = new ArrayList<LatLng>();
-    public static Context contextApp ;
+    static List<LatLng> datArrayList = new ArrayList<LatLng>();
+    public static Context contextApp;
     public static TextView tvDistanceDuration;
     public static GoogleMap map;
 
     private String str;
 
-
-    // Called when the application is starting, before any other application objects have been created.
-    // Overriding this method is totally optional!
     @Override
     public void onCreate() {
         super.onCreate();
         Log.w("AppMap", "onCreate MyApp");
-        str="onCreate MyApp";
+        str = "onCreate MyApp";
         addNotification(str);
 
     }
 
-    // Called by the system when the device configuration changes while your component is running.
-    // Overriding this method is totally optional!
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
 
-     /** This is called when the overall system is running low on memory,
-     *   and would like actively running processes to tighten their belts.
-     *   Overriding this method is totally optional!
-     */
     @Override
     public void onLowMemory() {
         super.onLowMemory();
@@ -94,28 +77,15 @@ public class AppMap extends Application  {
         addNotification(str);
     }
 
-    /*
-    // onTrimMemory() - called when the Android system requests that the application cleans up memory.
     @Override
-    public void onTrimMemory(){
-        super.onTrimMemory();
-        str = "onTrimMemory";
-        addNotification(str);
-    }
-    */
-
-    //onTerminate() - only for testing, not called in production
-    @Override
-    public void onTerminate(){
+    public void onTerminate() {
         super.onTerminate();
         str = "onTerminate";
         addNotification(str);
 
     }
 
-    //,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
     public void addNotification(String string) {
-        // https://www.tutorialspoint.com/android/android_notifications.htm
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.notification_icon)
@@ -134,7 +104,5 @@ public class AppMap extends Application  {
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(0, builder.build());
     }
-
-
 
 }

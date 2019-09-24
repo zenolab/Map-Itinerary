@@ -27,67 +27,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    ////getMap() method was depreciated but now after the play-services 9.2 update, it has been removed
-    //compile 'com.google.android.gms:play-services:10.2.6'
-
-    //---------draw-route---
-    /*
-    compile 'com.google.android.gms:play-services-maps:9.4.0'
-    compile 'com.google.android.gms:play-services-location:9.4.0'
-
-    */
-
-    /*
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-maps:9.0.1'
-    compile 'com.google.android.gms:play-services-location:9.0.1'
-    compile 'com.google.code.gson:gson:2.6.1'
-    compile 'com.mcxiaoke.volley:library:1.0.19'
-    //https://www.spaceotechnologies.com/calculate-distance-two-gps-coordinates-google-maps-api/
-    // https://github.com/akexorcist/Android-GoogleDirectionLibrary
-    compile 'com.akexorcist:googledirectionlibrary:1.0.4'
-
-    // for: https://www.simplifiedcoding.net/google-maps-distance-calculator-google-maps-api/
-    compile 'com.google.maps.android:android-maps-utils:0.4+'
-    */
-
-
-    
-
-    //https://www.spaceotechnologies.com/calculate-distance-two-gps-coordinates-google-maps-api/
-    // https://github.com/akexorcist/Android-GoogleDirectionLibrary
-    // for: https://www.simplifiedcoding.net/google-maps-distance-calculator-google-maps-api/
-    //compile 'com.google.maps.android:android-maps-utils:0.4+'
-    //!!!The latest version of Google Play Services App Indexing is:
-    //com.google.android.gms:play-services-appindexing:8.4.0
-    //compile 'com.google.android.gms:play-services:8.4.0'
-    //compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-
-
-    /*
-    'com.android.support:design:23.4.0'
-
-
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-maps:9.0.1'
-    compile 'com.google.android.gms:play-services-location:9.0.1'
-    compile 'com.google.code.gson:gson:2.6.1'
-    compile 'com.mcxiaoke.volley:library:1.0.19'
-
-    //https://www.spaceotechnologies.com/calculate-distance-two-gps-coordinates-google-maps-api/
-    // https://github.com/akexorcist/Android-GoogleDirectionLibrary
-    compile 'com.akexorcist:googledirectionlibrary:1.0.4'
-    // for: https://www.simplifiedcoding.net/google-maps-distance-calculator-google-maps-api/
-    //compile 'com.google.maps.android:android-maps-utils:0.4+'
-    //!!!The latest version of Google Play Services App Indexing is:
-    //com.google.android.gms:play-services-appindexing:8.4.0
-    //compile 'com.google.android.gms:play-services:8.4.0'
-    //compile 'com.google.android.gms:play-services-appindexing:8.4.0'
-    */
-
 
     compile 'com.android.support:appcompat-v7:25.2.0'
     compile 'com.android.support:design:25.2.0'

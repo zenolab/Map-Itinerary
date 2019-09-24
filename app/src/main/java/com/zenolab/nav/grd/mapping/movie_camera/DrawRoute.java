@@ -17,65 +17,39 @@ import java.net.URL;
 
 public class DrawRoute {
 
-
-    private String getDirectionsUrl(LatLng origin, LatLng dest){
-
-        // Origin of route
-        String str_origin = "origin="+origin.latitude+","+origin.longitude;
-
-        // Destination of route
-        String str_dest = "destination="+dest.latitude+","+dest.longitude;
-
-
-        // Sensor enabled
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
         String sensor = "sensor=false";
-
-        // Building the parameters to the web service
-        String parameters = str_origin+"&"+str_dest+"&"+sensor;
-
-        // Output format
+        String parameters = str_origin + "&" + str_dest + "&" + sensor;
         String output = "json";
-
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
-
-
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
         return url;
     }
 
-    /** A method to download json data from url */
+    /**
+     * A method to download json data from url
+     */
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
         InputStream iStream = null;
         HttpURLConnection urlConnection = null;
-        try{
+        try {
             URL url = new URL(strUrl);
-
-            // Creating an http connection to communicate with url
             urlConnection = (HttpURLConnection) url.openConnection();
-
-            // Connecting to url
             urlConnection.connect();
-
-            // Reading data from url
             iStream = urlConnection.getInputStream();
-
             BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-
-            StringBuffer sb  = new StringBuffer();
-
+            StringBuffer sb = new StringBuffer();
             String line = "";
-            while( ( line = br.readLine())  != null){
+            while ((line = br.readLine()) != null) {
                 sb.append(line);
             }
-
             data = sb.toString();
-
             br.close();
-
-        }catch(Exception e){
+        } catch (Exception e) {
             Log.d("Exception_download_url", e.toString());
-        }finally{
+        } finally {
             iStream.close();
             urlConnection.disconnect();
         }

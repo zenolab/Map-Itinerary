@@ -34,11 +34,6 @@ import com.zenolab.nav.grd.mapping.FileHelper;
 import java.util.Timer;
 import java.util.TimerTask;
 
-//--------- Ждать сигнала!
-
-// ИСПОЛЬЗУЕТСЯ ДВА слушателя  GPS (для примера)
-//1) googleApiClient - для UI (можно тоже писать данный в файл в фоне)
-// 2) locationManager - для работы в фоне по таймеру
 public class LocationService extends Service implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -54,9 +49,11 @@ public class LocationService extends Service implements
     private final long INTERVAL_REQUEST_LOCATION = 9000;
 
     private Location gpsLocation = null;
+
     public Location getGpsLocation() {
         return gpsLocation;
     }
+
     private void setGpsLocation(Location gpsLocation) {
         this.gpsLocation = gpsLocation;
     }
@@ -65,7 +62,6 @@ public class LocationService extends Service implements
 
         @Override
         public void onLocationChanged(Location location) {
-            Log.d(TAG, " -------->> onLocationChanged - Service location.getTime() " + location.getTime());
             setGpsLocation(location);
         }
 
@@ -83,7 +79,6 @@ public class LocationService extends Service implements
         public void onProviderDisabled(String s) {
 
         }
-
     };
 
     public LocationService() {
@@ -92,40 +87,19 @@ public class LocationService extends Service implements
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d(TAG, "onCreate --- LocationService");
-
     }
 
-    //// при выключенном экране (sleep mode ) работает реже примерно раз-два в минуту
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        // lister GPS (googleApiClient) for map UI
-        startTracking(); // при выключенном экране (sleep mode ) работает реже примерно раз-два в минуту
+        startTracking();
         new Thread(new Runnable() {
             @Override
             public void run() {
                 timerListenerGPS();
-                Log.w(TAG, "---Thread----");
-
             }
         }).start();
-
-        /**
-        *START_STICKY подразумевает, что система возродит вашу службу тогда, когда это будет возможно,
-        *    но она не будет заново посылать службе последний ею полученный Intent (например,
-        *    вы сами можете восстановить состояние, или у вас есть самописный жизненный цикл,
-        *     определяющий, что делать при старте и останове службы).
-        *START_REDELIVER_INTENT предназначается для служб, которые хотят запускаться заново с тем же самым Intent'ом,
-        *     который был получен ими в onStartCommand()
-        *START_NOT_STICKY пригодится службам,
-        *         которые необязательно перезапускать, если они тихонько растворились в тумане.
-        *        Такое поведение может быть полезно для служб, выполняющих такие периодические задачи, выполнение которых можно на время опустить.
-          */
-        // return START_NOT_STICKY; // сервис не будет перезапущен после того, как был убит системой
-        return START_STICKY; //– сервис будет перезапущен после того, как был убит системой
-        // return START_REDELIVER_INTENT; //– сервис будет перезапущен после того, как был убит системой. Кроме этого, сервис снова получит все вызовы startService, которые не были завершены методом stopSelf(startId).
+        return START_STICKY;
     }
-
 
     private void startTracking() {
         Log.d(TAG, "startTracking");
@@ -144,7 +118,7 @@ public class LocationService extends Service implements
             Log.e(TAG, "unable to connect to google play services.");
         }
     }
-    // using timer for listen gps sensors
+
     private void timerListenerGPS() {
         timer = new Timer();
         tTask = new TimerTask() {
@@ -153,13 +127,17 @@ public class LocationService extends Service implements
                 Log.d(TAG, "run");
                 try {
                     Log.d("UI thread", "I am the UI thread");
-                    //-------------------Access to the main thread(UI) from the child run---------------------------------
                     new Handler(Looper.getMainLooper()).post(new Runnable() {
                         @Override
                         public void run() {
-                            Log.d(TAG, "--------  new Handler(Looper.getMainLooper()).post(new Runnable() { ---");
-                            locationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-                            if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(AppMap.contextApp, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            locationManager = (LocationManager) getApplicationContext()
+                                    .getSystemService(Context.LOCATION_SERVICE);
+                            if (ActivityCompat.checkSelfPermission(getApplicationContext(),
+                                    Manifest.permission.ACCESS_FINE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED
+                                    && ActivityCompat.checkSelfPermission(AppMap.contextApp,
+                                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                                    != PackageManager.PERMISSION_GRANTED) {
                                 // TODO: Consider calling
                                 //    ActivityCompat#requestPermissions
                                 // here to request the missing permissions, and then overriding
@@ -169,14 +147,14 @@ public class LocationService extends Service implements
                                 // for ActivityCompat#requestPermissions for more details.
                                 return;
                             }
-                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 7000, 0,  listener);
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                                    7000, 0, listener);
                             addToFileLocation(getGpsLocation());
                         }
                     });
 
                 } catch (Exception e) {
                     e.printStackTrace();
-
                 }
             }
 
@@ -184,75 +162,70 @@ public class LocationService extends Service implements
         };
         //void schedule (TimerTask task, long delay, long period)
         timer.schedule(tTask, 0, INTERVAL_REQUEST_LOCATION);
-        Log.e(TAG, "TIMER: " );
+        Log.e(TAG, "TIMER: ");
 
     }
 
-    private void addToFileLocation(Location location){
-
+    private void addToFileLocation(Location location) {
         if (location != null) {
-                Log.e(TAG, "POSITION BACKGROUND: " + location.getLatitude() + ", " + location.getLongitude() + " точность-accuracy: " + location.getAccuracy());
+            Log.e(TAG, "POSITION BACKGROUND: " + location.getLatitude() + ", " + location.getLongitude() + " точность-accuracy: " + location.getAccuracy());
             AppMap.lastKnownLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             AppMap.currentLocation = location;
             Intent intent = new Intent(MainActivity.BROADCAST_ACTION);
-            addNotificationService("timer Service LatLng"+location.getLatitude()+" "+location.getLongitude());
-                Log.d("SERVICE","########### LOCATION ##########");
+            addNotificationService("timer Service LatLng" + location.getLatitude() + " " + location.getLongitude());
+            Log.d("SERVICE", "########### LOCATION ##########");
             FileHelper.recPointsToFile(AppMap.lastKnownLatLng);
-                Log.w(TAG, "---attempt invoke broadcast----");
+            Log.w(TAG, "---attempt invoke broadcast----");
             sendBroadcast(intent);
         }
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.d(TAG, "-------onConnected-------");
         startLocationUpdates();
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.e(TAG, "-------GoogleApiClient connection has been suspend--------");
     }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.e(TAG, "---onConnectionFailed----");
         stopLocationUpdates();
         stopSelf();
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e(TAG, "---onLocationChanged----");
-
-
-
         if (location != null) {
-            Log.e(TAG, "googleApiClient: " + location.getLatitude() + ", " + location.getLongitude() + " точность-accuracy: " + location.getAccuracy());
+            Log.e(TAG, "googleApiClient: " + location.getLatitude() + ", "
+                    + location.getLongitude() + " accuracy: " + location.getAccuracy());
             setGpsLocation(location);
             AppMap.lastKnownLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            AppMap.currentLocation= location;
+            AppMap.currentLocation = location;
             Intent intent = new Intent(MainActivity.BROADCAST_ACTION);
-            addNotificationService(" LatLng"+location.getLatitude()+" "+location.getLongitude());
-            Log.w(TAG, "---attempt invoke broadcast----");
+            addNotificationService(" LatLng" + location.getLatitude() + " " + location.getLongitude());
             sendBroadcast(intent);
         }
 
     }
+
     //=======================================================
     protected void startLocationUpdates() {
-        Log.d(TAG, "---startLocationUpdates----");
         LocationRequest locationRequest = new LocationRequest();
         locationRequest.setInterval(8000);
         locationRequest.setFastestInterval(4000);
         locationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -262,8 +235,7 @@ public class LocationService extends Service implements
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this); // original
-
+        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
     }
 
     protected void stopLocationUpdates() {
@@ -271,14 +243,13 @@ public class LocationService extends Service implements
     }
 
     private void addNotificationService(String string) {
-
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.notification_icon)
-                        // .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         .setContentTitle("Notifications LocationService")
-                        .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.detailed_world_map_800x600))
-                        .setContentText(">> "+ string);
+                        .setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                                R.drawable.detailed_world_map_800x600))
+                        .setContentText(">> " + string);
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
@@ -288,10 +259,10 @@ public class LocationService extends Service implements
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(0, builder.build());
     }
-    //-------------------------------------------@Override
+
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "----Service onDestroy()----");
+        Log.d(TAG, "onDestroy");
         new AppMap().addNotification("Service onDestroy() !!!");
     }
 
